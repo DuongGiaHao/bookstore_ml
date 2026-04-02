@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Shop Project{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white text-center py-3">
+                    <h4 class="mb-0">Registration</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form action="{{ url_for('register') }}" method="POST">
+
+                         <div class="mb-3">
+                            <label for="username" class="form-label fw-bold">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required placeholder="Choose a username">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email address">
+                        </div>
+
+                        
+                    <div class="mb-3">
+                    <label for="password" class="form-label fw-bold">Password</label>
+                         <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required placeholder="Enter a secure password">
+                          <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                     <i class="bi bi-eye" id="eyeIcon"></i> </button>
+                        </div>
+                    </div>
+
+                        <div class="mb-4">
+                            <label for="confirm_password" class="form-label fw-bold">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required placeholder="Confirm your password">
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">Register</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center bg-white py-3 border-0">
+                    <span class="text-muted">Already have an account? </span>
+                    <a href="{{ url_for('login') }}" class="text-decoration-none fw-bold text-success">Login here</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
+        const eyeIcon = document.querySelector("#eyeIcon");
+
+        if (togglePassword && password && eyeIcon) {
+            togglePassword.addEventListener("click", function () {
+                // Chuyển đổi giữa 'password' và 'text'
+                const type = password.getAttribute("type") === "password" ? "text" : "password";
+                password.setAttribute("type", type);
+                
+                // Đổi icon tương ứng
+                if (type === "password") {
+                    eyeIcon.classList.remove("bi-eye-slash");
+                    eyeIcon.classList.add("bi-eye");
+                } else {
+                    eyeIcon.classList.remove("bi-eye");
+                    eyeIcon.classList.add("bi-eye-slash");
+                }
+            });
+        }    
+    });
+</script>
+{% endblock %}

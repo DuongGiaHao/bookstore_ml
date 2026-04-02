@@ -1,0 +1,505 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    body { overflow-x: hidden; }
+
+    /* ----- 0. Style riêng cho phần Carousel Banner (ÉP SÁT NAVBAR) ----- */
+    .slider-section {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        /* ÉP SÁT LÊN NAVBAR BẰNG CÁCH TRỪ ĐI MARGIN CỦA THẺ MAIN */
+        margin-top: -1.5rem !important; 
+        margin-bottom: 4rem;
+        border-radius: 0; 
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .carousel-item { min-height: 400px; }
+    .bg-red { background-color: #dc3545 !important; }
+    .bg-purple { background-color: #6f42c1 !important; }
+    
+    .carousel-img {
+        height: 400px;
+        object-fit: cover;
+        width: 100%;
+    }
+    .btn-ecomm {
+        border-radius: 2px;
+        padding: 10px 30px;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    /* ----- CÁC STYLE KHÁC GIỮ NGUYÊN ----- */
+    .slider-track::-webkit-scrollbar { display: none; }
+    .slider-track { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .product-card {
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+    }
+    .product-card:hover {
+        border-color: #e0e0e0 !important; 
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12); 
+    }
+    .book-cover {
+        height: 220px; object-fit: cover; transition: transform 0.4s ease;
+    }
+    .product-card:hover .book-cover { transform: scale(1.08); }
+
+    .featured-card { flex: 0 0 calc(100% - 1rem); }
+    @media (min-width: 576px) { .featured-card { flex: 0 0 calc(50% - 1rem); } } 
+    @media (min-width: 768px) { .featured-card { flex: 0 0 calc(33.333% - 1rem); } } 
+    @media (min-width: 992px) { .featured-card { flex: 0 0 calc(20% - 1.25rem); } } 
+
+    .slider-btn {
+        width: 40px; height: 40px;
+        background-color: white; border: 1px solid #ddd;
+        opacity: 0.9; transition: all 0.2s; margin: 0 -15px; 
+    }
+    .slider-btn:hover {
+        opacity: 1; background-color: #f8f9fa; transform: scale(1.1); color: #000;
+    }
+    .custom-tab-btn {
+        background-color: white !important; color: black !important;
+        border: 1px solid black !important; border-radius: 4px;
+        margin: 0 5px; font-weight: 600; text-transform: uppercase;
+        font-size: 0.85rem; padding: 8px 20px; transition: all 0.3s ease;
+    }
+    .custom-tab-btn:hover { background-color: #f1f1f1 !important; }
+    .nav-pills .nav-link.active.custom-tab-btn {
+        background-color: black !important; color: white !important; border-color: black !important;
+    }
+    .blog-card { transition: box-shadow 0.3s ease; border: 1px solid #eee; }
+    .blog-card:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important; }
+    .blog-img { height: 240px; object-fit: cover; transition: transform 0.5s ease; }
+    .blog-card:hover .blog-img { transform: scale(1.06); }
+    .read-more-link { letter-spacing: 1px; font-size: 0.85rem; transition: color 0.2s ease; }
+    .read-more-link:hover { color: #0d6efd !important; }
+</style>
+
+<section class="slider-section">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"></button>
+        </div>
+        
+        <div class="carousel-inner">
+            <div class="carousel-item active bg-primary">
+                <div class="row d-flex align-items-center h-100 g-0">
+                    <div class="col-12 col-lg-6 d-flex justify-content-center p-5 text-center text-lg-start">
+                        <div>
+                            <h3 class="h3 fw-light text-white fw-bold">Trending Books</h3>
+                            <h1 class="h1 text-white fw-bold display-5">Bestselling Novels</h1>
+                            <p class="text-white fw-bold fs-5"><i>Final Call – Save Up to 35%</i></p>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 d-none d-lg-block">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1000&auto=format&fit=crop" class="img-fluid carousel-img" alt="Bestselling Novels">
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item bg-red">
+                <div class="row d-flex align-items-center h-100 g-0">
+                    <div class="col-12 col-lg-6 d-flex justify-content-center p-5 text-center text-lg-start">
+                        <div>
+                            <h3 class="h3 fw-light text-white fw-bold">Hot Right Now</h3>
+                            <h1 class="h1 text-white fw-bold display-5">Top Tech & AI Books</h1>
+                            <p class="text-white fw-bold fs-5"><i>Level Up – Up to 35% Off</i></p>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 d-none d-lg-block">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop" class="img-fluid carousel-img" alt="Tech & AI Books">
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item bg-purple">
+                <div class="row d-flex align-items-center h-100 g-0">
+                    <div class="col-12 col-lg-6 d-flex justify-content-center p-5 text-center text-lg-start">
+                        <div>
+                            <h3 class="h3 fw-light text-white fw-bold">Latest Masterpieces</h3>
+                            <h1 class="h1 text-white fw-bold display-5">Award-Winning Literature</h1>
+                            <p class="text-white fw-bold fs-5"><i>Limited Offer – Up to 35% Off</i></p>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 d-none d-lg-block">
+                        <img src="https://images.unsplash.com/photo-1476275466078-4007374efac4?q=80&w=1000&auto=format&fit=crop" class="img-fluid carousel-img" alt="Literature">
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item bg-warning">
+                <div class="row d-flex align-items-center h-100 g-0">
+                    <div class="col-12 col-lg-6 d-flex justify-content-center p-5 text-center text-lg-start">
+                        <div>
+                            <h3 class="h3 fw-light text-dark fw-bold">This Week’s Must-Haves</h3>
+                            <h1 class="h1 text-dark fw-bold display-5">Must-Read Business Books</h1>
+                            <p class="text-dark fw-bold fs-5"><i>Hurry – 35% Off Ends Soon</i></p>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 d-none d-lg-block">
+                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1000&auto=format&fit=crop" class="img-fluid carousel-img" alt="Business Books">
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item bg-success">
+                <div class="row d-flex align-items-center h-100 g-0">
+                    <div class="col-12 col-lg-6 d-flex justify-content-center p-5 text-center text-lg-start">
+                        <div>
+                            <h3 class="h3 fw-light text-white fw-bold">Bestsellers This Season</h3>
+                            <h1 class="h1 text-white fw-bold display-5">Premium Fantasy Collections</h1>
+                            <p class="text-white fw-bold fs-5"><i>Exclusive Deal – Save 35%</i></p>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 d-none d-lg-block">
+                        <img src="https://images.unsplash.com/photo-1608889175250-c3b0c1667d3a?q=80&w=1000&auto=format&fit=crop" class="img-fluid carousel-img" alt="Fantasy Books">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<div class="container my-5 px-0">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold mb-1">Featured Products</h2>
+        <p class="text-muted small">Explore our handpicked selection of top-tier books for you</p>
+    </div>
+
+    <div class="position-relative px-3">
+        <button class="slider-btn rounded-circle shadow-sm position-absolute top-50 start-0 translate-middle-y z-3 d-flex align-items-center justify-content-center" id="slideLeft">
+            <i class="bi bi-chevron-left fs-5"></i>
+        </button>
+
+        <div class="d-flex overflow-auto slider-track gap-3 py-3 px-1" id="sliderTrack" style="scroll-behavior: smooth;">
+            {% for i in range(1, 11) %}
+            <div class="card product-card featured-card" style="cursor: pointer;">
+                <div class="position-relative overflow-hidden rounded-top">
+                    <span class="badge bg-danger position-absolute top-0 start-0 m-2 z-3">HOT</span>
+                    <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📚</div>
+                </div>
+                <div class="card-body p-3 d-flex flex-column text-center bg-white rounded-bottom">
+                    <h6 class="card-title fw-bold text-truncate mb-1">Featured Book {{ i }}</h6>
+                    <p class="text-muted small mb-2">Top Author</p>
+                    <div class="mt-auto">
+                        <span class="text-danger fw-bold fs-6">$25.00</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="slider-btn rounded-circle shadow-sm position-absolute top-50 end-0 translate-middle-y z-3 d-flex align-items-center justify-content-center" id="slideRight">
+            <i class="bi bi-chevron-right fs-5"></i>
+        </button>
+    </div>
+</div>
+
+<div class="container my-5 pt-4 border-top">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold mb-1">Latest Products</h2>
+        <p class="text-muted small">Don't miss out on our newest and most popular arrivals</p>
+    </div>
+
+    <ul class="nav nav-pills justify-content-center mb-5" id="productTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link custom-tab-btn active" id="new-arrival-tab" data-bs-toggle="pill" data-bs-target="#new-arrival" type="button" role="tab">New Arrival</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link custom-tab-btn" id="best-seller-tab" data-bs-toggle="pill" data-bs-target="#best-seller" type="button" role="tab">Best Seller</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link custom-tab-btn" id="trending-tab" data-bs-toggle="pill" data-bs-target="#trending" type="button" role="tab">Trending</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link custom-tab-btn" id="special-offer-tab" data-bs-toggle="pill" data-bs-target="#special-offer" type="button" role="tab">Special Offer</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="productTabsContent">
+        <div class="tab-pane fade show active" id="new-arrival" role="tabpanel">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                {% for i in range(1, 8) %}
+                <div class="col">
+                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                        <div class="position-relative overflow-hidden rounded-top">
+                            <span class="badge bg-success position-absolute top-0 start-0 m-2 z-3">NEW</span>
+                            <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📘</div>
+                        </div>
+                        <div class="card-body p-3 text-center d-flex flex-column bg-white rounded-bottom">
+                            <h6 class="card-title fw-bold text-truncate mb-1">New Arrival {{ i }}</h6>
+                            <div class="mt-auto">
+                                <span class="text-dark fw-bold">$18.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="best-seller" role="tabpanel">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                {% for i in range(1, 6) %}
+                <div class="col">
+                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                        <div class="position-relative overflow-hidden rounded-top">
+                            <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 z-3">TOP</span>
+                            <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📙</div>
+                        </div>
+                        <div class="card-body p-3 text-center d-flex flex-column bg-white rounded-bottom">
+                            <h6 class="card-title fw-bold text-truncate mb-1">Best Seller {{ i }}</h6>
+                            <div class="mt-auto">
+                                <span class="text-dark fw-bold">$22.50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="trending" role="tabpanel">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                {% for i in range(1, 9) %}
+                <div class="col">
+                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                        <div class="position-relative overflow-hidden rounded-top">
+                            <span class="badge bg-danger position-absolute top-0 start-0 m-2 z-3"><i class="bi bi-fire"></i></span>
+                            <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📕</div>
+                        </div>
+                        <div class="card-body p-3 text-center d-flex flex-column bg-white rounded-bottom">
+                            <h6 class="card-title fw-bold text-truncate mb-1">Trending Book {{ i }}</h6>
+                            <div class="mt-auto">
+                                <span class="text-dark fw-bold">$15.99</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="special-offer" role="tabpanel">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                {% for i in range(1, 11) %}
+                <div class="col">
+                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                        <div class="position-relative overflow-hidden rounded-top">
+                            <span class="badge bg-dark position-absolute top-0 start-0 m-2 z-3">-30%</span>
+                            <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📗</div>
+                        </div>
+                        <div class="card-body p-3 text-center d-flex flex-column bg-white rounded-bottom">
+                            <h6 class="card-title fw-bold text-truncate mb-1">Special Offer {{ i }}</h6>
+                            <div class="mt-auto">
+                                <span class="text-danger fw-bold me-2">$14.00</span>
+                                <small class="text-muted text-decoration-line-through">$20.00</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<<section class="py-5 mt-4">
+    <div class="container">
+        <div class="text-center pb-4">
+            <h3 class="mb-1 h3 fw-bold">What We Offer!</h3>
+            <p class="mb-0 text-muted">Premium services for book lovers</p>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            
+            <div class="col d-flex">
+                <div class="card shadow-sm border-0 rounded-0 border-bottom border-primary border-3 w-100 transition-hover">
+                    <div class="card-body text-center p-4">
+                        <div class="h1 fw-bold my-2 text-primary">
+                            <i class="bi bi-truck"></i>
+                        </div>
+                        <h5 class="fw-bold mt-3">Free Delivery</h5>
+                        <p class="mb-0 text-muted small">Free shipping nationwide on all book orders over $50.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col d-flex">
+                <div class="card shadow-sm border-0 rounded-0 border-bottom border-danger border-3 w-100 transition-hover">
+                    <div class="card-body text-center p-4">
+                        <div class="h1 fw-bold my-2 text-danger">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                        <h5 class="fw-bold mt-3">Secure Payment</h5>
+                        <p class="mb-0 text-muted small">100% secure payment processing with modern encryption.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col d-flex">
+                <div class="card shadow-sm border-0 rounded-0 border-bottom border-success border-3 w-100 transition-hover">
+                    <div class="card-body text-center p-4">
+                        <div class="h1 fw-bold my-2 text-success">
+                            <i class="bi bi-box-arrow-left"></i> </div>
+                        <h5 class="fw-bold mt-3">Free Returns</h5>
+                        <p class="mb-0 text-muted small">Easy 30-day return policy for printed books in good condition.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col d-flex">
+                <div class="card shadow-sm border-0 rounded-0 border-bottom border-warning border-3 w-100 transition-hover">
+                    <div class="card-body text-center p-4">
+                        <div class="h1 fw-bold my-2 text-warning">
+                            <i class="bi bi-headset"></i>
+                        </div>
+                        <h5 class="fw-bold mt-3">24/7 Support</h5>
+                        <p class="mb-0 text-muted small">Our dedicated support team is always ready to assist you.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<section class="py-5 bg-light mb-5">
+    <div class="container">
+        <div class="card border-0 rounded-3 p-4 shadow-sm bg-white">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-5 text-center mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop" class="img-fluid rounded-3 shadow" alt="Premium Book Edition">
+                </div>
+                
+                <div class="col-lg-7 px-lg-5">
+                    <div class="card-body p-0">
+                        <h3 class="fw-bold mb-3 text-primary">Exclusive Edition: The AI Revolution</h3>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item bg-transparent px-0 border-light text-muted">
+                                <i class="bi bi-check2-circle text-success me-2"></i> Contrary to popular belief, a great book is more than just words — it’s an immersive journey into new worlds and ideas.
+                            </li>
+                            <li class="list-group-item bg-transparent px-0 border-light text-muted">
+                                <i class="bi bi-check2-circle text-success me-2"></i> Our exclusive editions feature premium hardcover binding, acid-free paper, and high-quality typography for the ultimate reading experience.
+                            </li>
+                            <li class="list-group-item bg-transparent px-0 border-light text-muted">
+                                <i class="bi bi-check2-circle text-success me-2"></i> Each copy is meticulously curated to deliver lasting knowledge while complementing your personal library.
+                            </li>
+                            <li class="list-group-item bg-transparent px-0 border-light text-muted">
+                                <i class="bi bi-check2-circle text-success me-2"></i> Discover the collection that defines the modern intellectual and tech enthusiast.
+                            </li>
+                        </ul>
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <a href="#" class="btn btn-lg btn-dark px-5 py-3 fw-bold rounded-1 shadow-sm">Buy Now</a>
+                            <a href="#" class="btn btn-lg btn-outline-dark px-5 py-3 fw-bold rounded-1">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container my-5 pt-4 border-top">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-uppercase mb-1">Latest Blog</h2>
+        <p class="text-muted small">Stay updated with our latest news and reading tips</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100 border-0 bg-transparent blog-card rounded-3">
+                <div class="overflow-hidden rounded-top">
+                    <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=800&auto=format&fit=crop" class="card-img-top blog-img" alt="Blog 1">
+                </div>
+                <div class="card-body p-4 bg-white rounded-bottom">
+                    <div class="text-muted small mb-3 d-flex align-items-center" style="font-size: 0.8rem;">
+                        <span class="fw-semibold">MARCH 20, 2026</span> <span class="mx-2">/</span> <span class="fw-semibold">ADMIN</span>
+                    </div>
+                    <h5 class="card-title fw-bold mb-3" style="line-height: 1.4;">5 Must-Read Sci-Fi Books for Tech Enthusiasts</h5>
+                    <p class="card-text text-muted mb-4" style="font-size: 0.95rem;">Dive into the future with these mind-bending science fiction novels that explore Artificial Intelligence...</p>
+                    <a href="#" class="text-dark fw-bold text-decoration-none read-more-link">READ MORE <i class="bi bi-chevron-right ms-1" style="font-size: 0.75rem;"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 border-0 bg-transparent blog-card rounded-3">
+                <div class="overflow-hidden rounded-top">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop" class="card-img-top blog-img" alt="Blog 2">
+                </div>
+                <div class="card-body p-4 bg-white rounded-bottom">
+                    <div class="text-muted small mb-3 d-flex align-items-center" style="font-size: 0.8rem;">
+                        <span class="fw-semibold">MARCH 15, 2026</span> <span class="mx-2">/</span> <span class="fw-semibold">ADMIN</span>
+                    </div>
+                    <h5 class="card-title fw-bold mb-3" style="line-height: 1.4;">How to Build a Consistent Daily Reading Habit</h5>
+                    <p class="card-text text-muted mb-4" style="font-size: 0.95rem;">Struggling to find time to read? Discover practical tips and proven methods to seamlessly integrate reading...</p>
+                    <a href="#" class="text-dark fw-bold text-decoration-none read-more-link">READ MORE <i class="bi bi-chevron-right ms-1" style="font-size: 0.75rem;"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 border-0 bg-transparent blog-card rounded-3">
+                <div class="overflow-hidden rounded-top">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop" class="card-img-top blog-img" alt="Blog 3">
+                </div>
+                <div class="card-body p-4 bg-white rounded-bottom">
+                    <div class="text-muted small mb-3 d-flex align-items-center" style="font-size: 0.8rem;">
+                        <span class="fw-semibold">MARCH 10, 2026</span> <span class="mx-2">/</span> <span class="fw-semibold">ADMIN</span>
+                    </div>
+                    <h5 class="card-title fw-bold mb-3" style="line-height: 1.4;">The Evolution of AI in Modern Literature</h5>
+                    <p class="card-text text-muted mb-4" style="font-size: 0.95rem;">An in-depth analysis of how Artificial Intelligence has shifted from being a classic villain trope to a complex entity...</p>
+                    <a href="#" class="text-dark fw-bold text-decoration-none read-more-link">READ MORE <i class="bi bi-chevron-right ms-1" style="font-size: 0.75rem;"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const track = document.getElementById("sliderTrack");
+        const leftBtn = document.getElementById("slideLeft");
+        const rightBtn = document.getElementById("slideRight");
+
+        if(track && leftBtn && rightBtn) {
+            leftBtn.addEventListener("click", () => {
+                const scrollAmount = track.clientWidth / 2; 
+                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+            rightBtn.addEventListener("click", () => {
+                const scrollAmount = track.clientWidth / 2; 
+                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+        }
+    });
+</script>
+{% endblock %}
