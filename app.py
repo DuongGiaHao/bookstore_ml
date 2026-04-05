@@ -74,7 +74,7 @@ def login():
             db.session.add(attempt)
             db.session.commit()
             
-            flash('Sai tên đăng nhập hoặc mật khẩu!', 'danger')
+            flash('Incorrect username or password!', 'danger')
             
     return render_template('login.html')
 
