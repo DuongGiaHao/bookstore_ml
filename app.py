@@ -22,6 +22,14 @@ with app.app_context():
 def home():
     return render_template('home.html')
 
+@app.route('/product')
+def product_detail():
+    return render_template('product-detail.html')
+
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':

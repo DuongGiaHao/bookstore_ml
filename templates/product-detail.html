@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Chi tiết Sách - AI BookStore{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-primary fw-semibold">Home</a></li>
+            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-primary fw-semibold">Technology & Science</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Machine Learning Basics</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+        
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                <img src="https://images.unsplash.com/photo-1555662137-f2df03d27453?q=80&w=800&auto=format&fit=crop" class="img-fluid w-100" alt="Book Cover" style="height: 550px; object-fit: cover;">
+            </div>
+
+            <h5 class="fw-bold mb-3 border-bottom pb-2">Related Books</h5>
+            <div class="row g-3">
+                <div class="col-4">
+                    <a href="#">
+                        <img src="https://dummyimage.com/200x300/e9ecef/495057.png&text=Python+Pro" class="img-fluid rounded-3 border shadow-sm transition-hover" alt="Related">
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="#">
+                        <img src="https://dummyimage.com/200x300/e9ecef/495057.png&text=Data+Sci" class="img-fluid rounded-3 border shadow-sm transition-hover" alt="Related">
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="#">
+                        <img src="https://dummyimage.com/200x300/e9ecef/495057.png&text=Deep+Learn" class="img-fluid rounded-3 border shadow-sm transition-hover" alt="Related">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            
+            <h1 class="fw-bold text-dark mb-2 display-6">Machine Learning Basics: A Comprehensive Guide</h1>
+            
+            <div class="mb-4 mt-3">
+                <span class="fs-1 fw-bold text-danger me-3">$45.00</span>
+                <span class="text-muted text-decoration-line-through fs-5">$60.00</span>
+            </div>
+
+            <div class="mb-4">
+                <span class="badge bg-success fs-6 px-3 py-2"><i class="bi bi-box-seam me-1"></i> In Stock: 24 items</span>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 mb-5 pb-4 border-bottom">
+                <div class="input-group shadow-sm" style="width: 140px;">
+                    <button class="btn btn-outline-secondary px-3 fw-bold" type="button" id="btn-minus">-</button>
+                    <input type="text" class="form-control text-center fw-bold bg-white" value="1" id="qty-input" readonly>
+                    <button class="btn btn-outline-secondary px-3 fw-bold" type="button" id="btn-plus">+</button>
+                </div>
+                <button class="btn btn-dark btn-lg px-5 fw-bold shadow" id="addToCartBtn" style="letter-spacing: 1px;">
+                    <i class="bi bi-cart-plus me-2"></i> ADD TO CART
+                </button>
+            </div>
+
+            <div class="book-details bg-light p-4 rounded-4 shadow-sm border">
+                <h4 class="fw-bold mb-4 text-uppercase border-bottom pb-2"><i class="bi bi-info-circle me-2 text-primary"></i>Book Details</h4>
+                
+                <table class="table table-borderless mb-4" style="max-width: 400px;">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="text-muted ps-0" style="width: 150px;">Author:</th>
+                            <td class="fw-semibold text-dark">Dr. Alan Turing</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-muted ps-0">Publication Year:</th>
+                            <td class="fw-semibold text-dark">2025</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-muted ps-0">Publisher:</th>
+                            <td class="fw-semibold text-dark">TechPress AI Publishing</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h5 class="fw-bold mb-2">Description</h5>
+                <p class="text-muted mb-0" style="line-height: 1.8; text-align: justify;">
+                    Dive deep into the world of Artificial Intelligence with "Machine Learning Basics". This book provides a clear, concise, and highly accessible introduction to the core algorithms and mathematical foundations that power modern AI systems. Whether you are a beginner looking to understand the concepts or an intermediate developer aiming to solidify your knowledge, this guide offers step-by-step tutorials, real-world examples, and practical code snippets to help you master the craft.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

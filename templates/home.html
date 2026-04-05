@@ -19,7 +19,7 @@
                             <h3 class="h3 fw-light text-white fw-bold">Trending Books</h3>
                             <h1 class="h1 text-white fw-bold display-5">Bestselling Novels</h1>
                             <p class="text-white fw-bold fs-5"><i>Final Call – Save Up to 35%</i></p>
-                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="/product">Shop Now</a></div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 d-none d-lg-block">
@@ -35,7 +35,7 @@
                             <h3 class="h3 fw-light text-white fw-bold">Hot Right Now</h3>
                             <h1 class="h1 text-white fw-bold display-5">Top Tech & AI Books</h1>
                             <p class="text-white fw-bold fs-5"><i>Level Up – Up to 35% Off</i></p>
-                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="/product">Shop Now</a></div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 d-none d-lg-block">
@@ -51,7 +51,7 @@
                             <h3 class="h3 fw-light text-white fw-bold">Latest Masterpieces</h3>
                             <h1 class="h1 text-white fw-bold display-5">Award-Winning Literature</h1>
                             <p class="text-white fw-bold fs-5"><i>Limited Offer – Up to 35% Off</i></p>
-                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="/product">Shop Now</a></div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 d-none d-lg-block">
@@ -67,7 +67,7 @@
                             <h3 class="h3 fw-light text-dark fw-bold">This Week’s Must-Haves</h3>
                             <h1 class="h1 text-dark fw-bold display-5">Must-Read Business Books</h1>
                             <p class="text-dark fw-bold fs-5"><i>Hurry – 35% Off Ends Soon</i></p>
-                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="/product">Shop Now</a></div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 d-none d-lg-block">
@@ -83,7 +83,7 @@
                             <h3 class="h3 fw-light text-white fw-bold">Bestsellers This Season</h3>
                             <h1 class="h1 text-white fw-bold display-5">Premium Fantasy Collections</h1>
                             <p class="text-white fw-bold fs-5"><i>Exclusive Deal – Save 35%</i></p>
-                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="#">Shop Now</a></div>
+                            <div class="mt-4"><a class="btn btn-dark btn-ecomm text-white" href="/product">Shop Now</a></div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 d-none d-lg-block">
@@ -117,7 +117,7 @@
 
         <div class="d-flex overflow-auto slider-track gap-3 py-3 px-1" id="sliderTrack" style="scroll-behavior: smooth;">
             {% for i in range(1, 11) %}
-            <div class="card product-card featured-card" style="cursor: pointer;">
+            <a href="/product" class="card product-card featured-card text-decoration-none text-dark" style="cursor: pointer;">
                 <div class="position-relative overflow-hidden rounded-top">
                     <span class="badge bg-danger position-absolute top-0 start-0 m-2 z-3">HOT</span>
                     <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📚</div>
@@ -129,7 +129,7 @@
                         <span class="text-danger fw-bold fs-6">$25.00</span>
                     </div>
                 </div>
-            </div>
+            </a>
             {% endfor %}
         </div>
 
@@ -165,7 +165,7 @@
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
                 {% for i in range(1, 8) %}
                 <div class="col">
-                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                    <a href="/product" class="card product-card h-100 border-0 shadow-sm text-decoration-none text-dark" style="cursor: pointer;">
                         <div class="position-relative overflow-hidden rounded-top">
                             <span class="badge bg-success position-absolute top-0 start-0 m-2 z-3">NEW</span>
                             <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📘</div>
@@ -176,7 +176,7 @@
                                 <span class="text-dark fw-bold">$18.00</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
@@ -186,7 +186,7 @@
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
                 {% for i in range(1, 6) %}
                 <div class="col">
-                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                    <a href="/product" class="card product-card h-100 border-0 shadow-sm text-decoration-none text-dark" style="cursor: pointer;">
                         <div class="position-relative overflow-hidden rounded-top">
                             <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 z-3">TOP</span>
                             <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📙</div>
@@ -197,7 +197,7 @@
                                 <span class="text-dark fw-bold">$22.50</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
@@ -207,7 +207,7 @@
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
                 {% for i in range(1, 9) %}
                 <div class="col">
-                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                    <a href="/product" class="card product-card h-100 border-0 shadow-sm text-decoration-none text-dark" style="cursor: pointer;">
                         <div class="position-relative overflow-hidden rounded-top">
                             <span class="badge bg-danger position-absolute top-0 start-0 m-2 z-3"><i class="bi bi-fire"></i></span>
                             <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📕</div>
@@ -218,7 +218,7 @@
                                 <span class="text-dark fw-bold">$15.99</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
@@ -228,7 +228,7 @@
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
                 {% for i in range(1, 11) %}
                 <div class="col">
-                    <div class="card product-card h-100 border-0 shadow-sm" style="cursor: pointer;">
+                    <a href="/product" class="card product-card h-100 border-0 shadow-sm text-decoration-none text-dark" style="cursor: pointer;">
                         <div class="position-relative overflow-hidden rounded-top">
                             <span class="badge bg-dark position-absolute top-0 start-0 m-2 z-3">-30%</span>
                             <div class="bg-light text-dark d-flex align-items-center justify-content-center book-cover border-bottom" style="font-size: 3rem;">📗</div>
@@ -240,7 +240,7 @@
                                 <small class="text-muted text-decoration-line-through">$20.00</small>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
@@ -248,14 +248,13 @@
     </div>
 </div>
 
-<<section class="py-5 mt-4">
+<section class="py-5 mt-4">
     <div class="container">
         <div class="text-center pb-4">
-            <h3 class="mb-1 h3 fw-bold">What We Offer!</h3>
+            <h3 class="mb-1 h3 fw-bold text-uppercase">What We Offer!</h3>
             <p class="mb-0 text-muted">Premium services for book lovers</p>
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            
             <div class="col d-flex">
                 <div class="card shadow-sm border-0 rounded-0 border-bottom border-primary border-3 w-100 transition-hover">
                     <div class="card-body text-center p-4">
@@ -267,7 +266,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="col d-flex">
                 <div class="card shadow-sm border-0 rounded-0 border-bottom border-danger border-3 w-100 transition-hover">
                     <div class="card-body text-center p-4">
@@ -279,18 +277,17 @@
                     </div>
                 </div>
             </div>
-            
             <div class="col d-flex">
                 <div class="card shadow-sm border-0 rounded-0 border-bottom border-success border-3 w-100 transition-hover">
                     <div class="card-body text-center p-4">
                         <div class="h1 fw-bold my-2 text-success">
-                            <i class="bi bi-box-arrow-left"></i> </div>
+                            <i class="bi bi-box-arrow-left"></i>
+                        </div>
                         <h5 class="fw-bold mt-3">Free Returns</h5>
                         <p class="mb-0 text-muted small">Easy 30-day return policy for printed books in good condition.</p>
                     </div>
                 </div>
             </div>
-            
             <div class="col d-flex">
                 <div class="card shadow-sm border-0 rounded-0 border-bottom border-warning border-3 w-100 transition-hover">
                     <div class="card-body text-center p-4">
@@ -302,10 +299,10 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </section>
+
 <section class="py-5 bg-light mb-5">
     <div class="container">
         <div class="card border-0 rounded-3 p-4 shadow-sm bg-white">
@@ -313,7 +310,6 @@
                 <div class="col-lg-5 text-center mb-4 mb-lg-0">
                     <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop" class="img-fluid rounded-3 shadow" alt="Premium Book Edition">
                 </div>
-                
                 <div class="col-lg-7 px-lg-5">
                     <div class="card-body p-0">
                         <h3 class="fw-bold mb-3 text-primary">Exclusive Edition: The AI Revolution</h3>
@@ -332,8 +328,8 @@
                             </li>
                         </ul>
                         <div class="d-flex flex-column flex-sm-row gap-3">
-                            <a href="#" class="btn btn-lg btn-dark px-5 py-3 fw-bold rounded-1 shadow-sm">Buy Now</a>
-                            <a href="#" class="btn btn-lg btn-outline-dark px-5 py-3 fw-bold rounded-1">View Details</a>
+                            <a href="/product" class="btn btn-lg btn-dark px-5 py-3 fw-bold rounded-1 shadow-sm">Buy Now</a>
+                            <a href="/product" class="btn btn-lg btn-outline-dark px-5 py-3 fw-bold rounded-1">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -398,23 +394,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const track = document.getElementById("sliderTrack");
-        const leftBtn = document.getElementById("slideLeft");
-        const rightBtn = document.getElementById("slideRight");
-
-        if(track && leftBtn && rightBtn) {
-            leftBtn.addEventListener("click", () => {
-                const scrollAmount = track.clientWidth / 2; 
-                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            });
-            rightBtn.addEventListener("click", () => {
-                const scrollAmount = track.clientWidth / 2; 
-                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            });
-        }
-    });
-</script>
 {% endblock %}
