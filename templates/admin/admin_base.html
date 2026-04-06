@@ -5,11 +5,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Admin Panel - AI BookStore{% endblock %}</title>
+    <title>{% block title %}Admin Panel - BookStore{% endblock %}</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
@@ -22,7 +21,7 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-robot"></i> </div>
-                <div class="sidebar-brand-text mx-3">AI BookStore</div>
+                <div class="sidebar-brand-text mx-3">BookStore</div>
             </a>
 
             <hr class="sidebar-divider my-0">
@@ -30,39 +29,39 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard Thống Kê</span>
+                    <span>Dashboard</span>
                 </a>
             </li>
 
             <hr class="sidebar-divider">
-            <div class="sidebar-heading">Quản lý Cửa Hàng</div>
+            <div class="sidebar-heading">Shop Management</div>
 
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-book"></i>
-                    <span>Quản lý Sách</span>
+                    <span>Manage Books</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-shopping-cart"></i>
-                    <span>Đơn Hàng</span>
+                    <span>Orders</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Tài khoản Khách hàng</span>
+                    <span>Customer Accounts</span>
                 </a>
             </li>
 
             <hr class="sidebar-divider">
-            <div class="sidebar-heading">Bảo Mật & Machine Learning</div>
+            <div class="sidebar-heading">Security & Machine Learning</div>
 
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-shield-alt"></i>
-                    <span>Dữ liệu Brute Force (Log)</span>
+                    <span>Brute Force Data (Logs)</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -93,19 +92,19 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold">
-                                    Xin chào, {{ session.get('username', 'Admin') }}
+                                    Wellcome back, {{ session.get('username', 'Admin') }}
                                 </span>
                                 <img class="img-profile rounded-circle" src="https://ui-avatars.com/api/?name={{ session.get('username', 'Admin') }}&background=4e73df&color=fff">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="/">
                                     <i class="fas fa-store fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Xem trang cửa hàng
+                                    View Store
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-danger"></i>
-                                    Đăng xuất
+                                    Logout
                                 </a>
                             </div>
                         </li>
