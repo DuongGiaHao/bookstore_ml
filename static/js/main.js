@@ -1,6 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
-    
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ========================================================
     // 1. CHỨC NĂNG ẨN/HIỆN MẬT KHẨU (Login / Register)
+    // ========================================================
     const togglePassword = document.querySelector("#togglePassword");
     const password = document.querySelector("#password");
     const eyeIcon = document.querySelector("#eyeIcon");
@@ -9,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         togglePassword.addEventListener("click", function () {
             const type = password.getAttribute("type") === "password" ? "text" : "password";
             password.setAttribute("type", type);
-            
+
             if (type === "password") {
                 eyeIcon.classList.remove("bi-eye-slash");
                 eyeIcon.classList.add("bi-eye");
@@ -20,105 +22,147 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // ========================================================
     // 2. CHỨC NĂNG THANH TRƯỢT SẢN PHẨM (Home Page)
+    // ========================================================
     const track = document.getElementById("sliderTrack");
     const leftBtn = document.getElementById("slideLeft");
     const rightBtn = document.getElementById("slideRight");
 
-    if(track && leftBtn && rightBtn) {
+    if (track && leftBtn && rightBtn) {
         leftBtn.addEventListener("click", () => {
-            const scrollAmount = track.clientWidth / 2; 
+            const scrollAmount = track.clientWidth / 2;
             track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         });
         rightBtn.addEventListener("click", () => {
-            const scrollAmount = track.clientWidth / 2; 
+            const scrollAmount = track.clientWidth / 2;
             track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         });
     }
-}); 
-    // Nút Add to Cart
+
+    // ========================================================
+    // 3. CHỨC NĂNG TRANG CHI TIẾT SẢN PHẨM (Product Detail)
+    // ========================================================
     const addToCartBtn = document.getElementById("addToCartBtn");
-    if(addToCartBtn) {
-        addToCartBtn.addEventListener("click", function() {
-            // Hiện thông báo popup khi nhấn mua hàng
-            alert("Successfully added to cart!");
-        });
-    }
+    const cartBadge = document.querySelector(".bi-cart3")?.parentElement.querySelector(".badge");
+    const qtyInputDetail = document.getElementById("qty-input");
+    const btnMinusDetail = document.getElementById("btn-minus");
+    const btnPlusDetail = document.getElementById("btn-plus");
 
-    // Nút Tăng/Giảm số lượng
-    const btnMinus = document.getElementById("btn-minus");
-    const btnPlus = document.getElementById("btn-plus");
-    const qtyInput = document.getElementById("qty-input");
+    // Nút Add to Cart & Cập nhật badge Navbar
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener("click", function () {
+            let qtyToAdd = qtyInputDetail ? parseInt(qtyInputDetail.value) : 1;
 
-    if(btnMinus && btnPlus && qtyInput) {
-        btnMinus.addEventListener("click", () => {
-            let val = parseInt(qtyInput.value);
-            if(val > 1) { // Không cho giảm dưới 1
-                qtyInput.value = val - 1;
+            if (cartBadge) {
+                let currentQty = parseInt(cartBadge.innerText) || 0;
+                cartBadge.innerText = currentQty + qtyToAdd;
             }
-        });
-        
-        btnPlus.addEventListener("click", () => {
-            let val = parseInt(qtyInput.value);
-            let maxStock = 24; // Giả sử trong kho còn 24 cuốn
-            if(val < maxStock) {
-                qtyInput.value = val + 1;
+
+            if (typeof toastr !== 'undefined') {
+                toastr.success(`Successfully added ${qtyToAdd} items to cart!`, "Success");
             } else {
-                alert("Maximum quantity reached!");
+                alert("Successfully added to cart!");
             }
         });
     }
 
-document.addEventListener("DOMContentLoaded", function() {
-    
-    // ... (Các code cũ của bạn như Ẩn/Hiện mật khẩu, Slider, Thêm vào giỏ ở đây) ...
+    // Bộ tăng giảm số lượng trang chi tiết
+    if (btnMinusDetail && btnPlusDetail && qtyInputDetail) {
+        btnMinusDetail.addEventListener("click", () => {
+            let val = parseInt(qtyInputDetail.value);
+            if (val > 1) qtyInputDetail.value = val - 1;
+        });
+        btnPlusDetail.addEventListener("click", () => {
+            let val = parseInt(qtyInputDetail.value);
+            if (val < 24) { // Giả sử kho còn 24
+                qtyInputDetail.value = val + 1;
+            } else {
+                toastr.warning("Maximum quantity reached!");
+            }
+        });
+    }
 
     // ========================================================
-    // 4. CHỨC NĂNG TRANG GIỎ HÀNG (Cart Page)
+    // 4. CHỨC NĂNG TRANG GIỎ HÀNG (Cart Calculation)
     // ========================================================
-    // Lấy tất cả các sản phẩm trong giỏ hàng
     const cartItems = document.querySelectorAll(".cart-item");
-    
-    cartItems.forEach(item => {
-        // Tìm nút trừ, nút cộng và ô nhập số lượng của TỪNG sản phẩm
-        const minusBtn = item.querySelector(".cart-minus");
-        const plusBtn = item.querySelector(".cart-plus");
-        const input = item.querySelector(".cart-qty");
+    if (cartItems.length > 0) {
+        cartItems.forEach(item => {
+            const minusBtn = item.querySelector(".cart-minus");
+            const plusBtn = item.querySelector(".cart-plus");
+            const input = item.querySelector(".cart-qty");
 
-        // Nếu tồn tại cả 3 thành phần này thì mới gắn sự kiện click
-        if(minusBtn && plusBtn && input) {
-            
-            // Xử lý khi bấm nút Trừ (-)
-            minusBtn.addEventListener("click", () => {
-                let val = parseInt(input.value);
-                if(val > 1) { // Số lượng không được nhỏ hơn 1
-                    input.value = val - 1;
+            if (minusBtn && plusBtn && input) {
+                minusBtn.addEventListener("click", () => {
+                    let val = parseInt(input.value);
+                    if (val > 1) input.value = val - 1;
+                });
+                plusBtn.addEventListener("click", () => {
+                    let val = parseInt(input.value);
+                    input.value = val + 1;
+                });
+            }
+        });
+    }
+
+    const updateCartBtn = document.getElementById("updateCartBtn");
+    if (updateCartBtn) {
+        updateCartBtn.addEventListener("click", function () {
+            let bagTotal = 0;
+            const allItems = document.querySelectorAll(".cart-item");
+
+            allItems.forEach(item => {
+                const priceElement = item.querySelector(".item-price");
+                const qtyInput = item.querySelector(".cart-qty");
+                
+                if (priceElement && qtyInput) {
+                    const price = parseFloat(priceElement.getAttribute("data-price"));
+                    const qty = parseInt(qtyInput.value);
+                    bagTotal += price * qty;
                 }
             });
-            
-            // Xử lý khi bấm nút Cộng (+)
-            plusBtn.addEventListener("click", () => {
-                let val = parseInt(input.value);
-                input.value = val + 1;
-            });
-            
-        }
-    });
 
-    // Xử lý nút Update Quantity
-    const updateCartBtn = document.getElementById("updateCartBtn");
-    if(updateCartBtn) {
-        updateCartBtn.addEventListener("click", function() {
-            // Kiểm tra xem đã có thư viện toastr chưa để báo lỗi tránh sập JS
+            const tax = bagTotal * 0.1;
+            const totalAmount = bagTotal + tax;
+
+            // Cập nhật giao diện Order Summary
+            if (document.getElementById("summary-bag-total")) {
+                document.getElementById("summary-bag-total").innerText = `$${bagTotal.toFixed(2)}`;
+                document.getElementById("summary-tax").innerText = `$${tax.toFixed(2)}`;
+                document.getElementById("summary-total-amount").innerText = `$${totalAmount.toFixed(2)}`;
+            }
+
             if (typeof toastr !== 'undefined') {
-                toastr.info("Updating quantity...", "Please wait");
-                setTimeout(() => {
-                    toastr.success("Update quantity successful!", "Success");
-                }, 1000);
-            } else {
-                alert("Update quantity successful!");
+                toastr.success("Cart updated successfully!");
             }
         });
     }
 
+    // ========================================================
+    // 5. HIỂN THỊ FLASH MESSAGES TỪ FLASK (Toastr)
+    // ========================================================
+    const flashData = document.getElementById('flash-data');
+    if (flashData) {
+        const messages = flashData.querySelectorAll('.msg');
+        messages.forEach(m => {
+            const text = m.innerText;
+            const category = m.getAttribute('data-category'); // success, danger, info...
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "timeOut": "4000"
+            };
+
+            if (category === 'success') {
+                toastr.success(text);
+            } else if (category === 'danger' || category === 'error') {
+                toastr.error(text);
+            } else {
+                toastr.info(text);
+            }
+        });
+    }
 });

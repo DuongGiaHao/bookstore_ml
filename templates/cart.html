@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container my-5">
     
-    <h2 class="fw-bold mb-4">Shopping Cart <span class="text-muted fs-5 fw-normal">(2 items)</span></h2>
+    <h2 class="fw-bold mb-4">Shopping Cart <span class="text-muted fs-5 fw-normal" id="cart-count">(2 items)</span></h2>
 
     <div class="row g-5">
         <div class="col-lg-8">
@@ -19,7 +19,7 @@
                         <div class="col-8 col-md-5">
                             <h5 class="fw-bold text-dark mb-1">Machine Learning Basics</h5>
                             <p class="text-muted small mb-2">Author: Dr. Alan Turing</p>
-                            <h6 class="fw-bold text-danger mb-0">$45.00</h6>
+                            <h6 class="fw-bold text-danger mb-0 item-price" data-price="45.00">$45.00</h6>
                         </div>
                         <div class="col-12 col-md-5 mt-3 mt-md-0 d-flex justify-content-between align-items-center">
                             <div class="input-group input-group-sm w-50 shadow-sm">
@@ -40,7 +40,7 @@
                         <div class="col-8 col-md-5">
                             <h5 class="fw-bold text-dark mb-1">Clean Code</h5>
                             <p class="text-muted small mb-2">Author: Robert C. Martin</p>
-                            <h6 class="fw-bold text-danger mb-0">$35.00</h6>
+                            <h6 class="fw-bold text-danger mb-0 item-price" data-price="35.00">$35.00</h6>
                         </div>
                         <div class="col-12 col-md-5 mt-3 mt-md-0 d-flex justify-content-between align-items-center">
                             <div class="input-group input-group-sm w-50 shadow-sm">
@@ -71,7 +71,7 @@
                     
                     <div class="d-flex justify-content-between mb-3">
                         <span class="text-muted fw-semibold">Bag Total</span>
-                        <span class="fw-bold text-dark">$115.00</span>
+                        <span class="fw-bold text-dark" id="summary-bag-total">$115.00</span>
                     </div>
                     
                     <div class="d-flex justify-content-between mb-3">
@@ -81,14 +81,14 @@
 
                     <div class="d-flex justify-content-between mb-4">
                         <span class="text-muted fw-semibold">Tax (VAT 10%)</span>
-                        <span class="fw-bold text-dark">$11.50</span>
+                        <span class="fw-bold text-dark" id="summary-tax">$11.50</span>
                     </div>
                     
                     <hr class="my-4">
                     
                     <div class="d-flex justify-content-between mb-5">
                         <span class="fs-5 fw-bold text-dark">Total Amount</span>
-                        <span class="fs-4 fw-bold text-danger">$126.50</span>
+                        <span class="fs-4 fw-bold text-danger" id="summary-total-amount">$126.50</span>
                     </div>
                     
                     <div class="d-grid">
@@ -96,16 +96,6 @@
                             PLACE ORDER <i class="bi bi-arrow-right ms-2"></i>
                         </button>
                     </div>
-                    
-                    <div class="text-center mt-4 pt-3 border-top">
-                        <p class="text-muted small mb-2">We accept:</p>
-                        <div class="d-flex justify-content-center gap-2">
-                            <span class="badge border text-dark p-2 fs-6"><i class="bi bi-credit-card"></i></span>
-                            <span class="badge border text-dark p-2 fs-6"><i class="bi bi-paypal"></i></span>
-                            <span class="badge border text-dark p-2 fs-6"><i class="bi bi-cash"></i></span>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
