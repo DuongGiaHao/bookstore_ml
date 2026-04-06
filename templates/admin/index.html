@@ -18,10 +18,12 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Doanh Thu (Tháng này)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$2,450.00</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Doanh Thu (Tháng)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{ "{:,.2f}".format(total_revenue) }}</div>
                         </div>
-                        <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -33,9 +35,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tổng Đơn Hàng</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">125 Đơn</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_orders }} Đơn</div>
                         </div>
-                        <div class="col-auto"><i class="fas fa-shopping-cart fa-2x text-gray-300"></i></div>
+                        <div class="col-auto">
+                            <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,9 +51,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Khách Hàng Đăng Ký</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">45 Người</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_users }} Người</div>
                         </div>
-                        <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,10 +66,12 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Cảnh Báo Đăng Nhập Sai</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800 text-danger">18 Lượt</div>
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Log Đăng Nhập Sai</div>
+                            <div class="h5 mb-0 font-weight-bold text-danger">{{ failed_logins }} Lượt</div>
                         </div>
-                        <div class="col-auto"><i class="fas fa-exclamation-triangle fa-2x text-danger"></i></div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,7 +95,7 @@
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-danger">Thống Kê Đăng Nhập (ML Data)</h6>
+                    <h6 class="m-0 font-weight-bold text-danger">Thống Kê Security (Dữ liệu ML)</h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2" style="height: 250px;">
@@ -95,63 +103,18 @@
                     </div>
                     <div class="mt-4 text-center small font-weight-bold">
                         <span class="mr-2"><i class="fas fa-circle text-success"></i> Hợp lệ</span>
-                        <span class="mr-2"><i class="fas fa-circle text-danger"></i> Thất bại (Nghi ngờ BF)</span>
+                        <span class="mr-2"><i class="fas fa-circle text-danger"></i> Nghi ngờ (Fail)</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <input type="hidden" id="data-success" value="{{ success_logins }}">
+    <input type="hidden" id="data-failed" value="{{ failed_logins }}">
+
 {% endblock %}
 
 {% block scripts %}
-<script>
-    // 1. Biểu đồ Doanh Thu
-    var ctxRevenue = document.getElementById("revenueChart");
-    var revenueChart = new Chart(ctxRevenue, {
-        type: 'line',
-        data: {
-            labels: ["T1", "T2", "T3", "T4", "T5", "T6"],
-            datasets: [{
-                label: "Doanh thu",
-                lineTension: 0.3,
-                backgroundColor: "rgba(78, 115, 223, 0.05)",
-                borderColor: "rgba(78, 115, 223, 1)",
-                pointRadius: 3,
-                pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                pointBorderColor: "rgba(78, 115, 223, 1)",
-                pointHoverRadius: 3,
-                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                pointHitRadius: 10,
-                pointBorderWidth: 2,
-                data: [0, 1000, 500, 1500, 1000, 2450], // Dữ liệu ảo
-            }],
-        },
-        options: {
-            maintainAspectRatio: false,
-            legend: { display: false }
-        }
-    });
-
-    // 2. Biểu đồ Tỉ lệ Đăng Nhập (Quan trọng cho bài toán AI của bạn)
-    var ctxLogin = document.getElementById("loginChart");
-    var loginChart = new Chart(ctxLogin, {
-        type: 'doughnut',
-        data: {
-            labels: ["Thành công", "Thất bại (Nghi ngờ Brute Force)"],
-            datasets: [{
-                data: [85, 15], // Ví dụ: 85% đăng nhập đúng, 15% sai
-                backgroundColor: ['#1cc88a', '#e74a3b'],
-                hoverBackgroundColor: ['#17a673', '#c0392b'],
-                hoverBorderColor: "rgba(234, 236, 244, 1)",
-            }],
-        },
-        options: {
-            maintainAspectRatio: false,
-            cutoutPercentage: 70, // Tạo lỗ hổng ở giữa (Doughnut)
-            legend: { display: false }
-        },
-    });
-</script>
+    <script src="{{ url_for('static', filename='admin/js/admin_charts.js') }}"></script>
 {% endblock %}
