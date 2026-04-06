@@ -16,11 +16,27 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Khởi tạo Database với App
 db.init_app(app)
 
-# Tự động tạo các bảng nếu chưa tồn tại
+# Tự động tạo các bảng nếu chưa tồn tại và tạo tài khoản Admin
 with app.app_context():
     db.create_all()
+    
+    # Kiểm tra xem tài khoản admin đã tồn tại chưa
+    admin_user = User.query.filter_by(username='admin').first()
+    if not admin_user:
+        hashed_pw = generate_password_hash('admin123')
+        # Ghi chú: Nếu file models.py của bạn không có cột 'role', bạn có thể xóa đoạn `role='admin'` đi
+        try:
+            new_admin = User(username='admin', email='admin@bookstore.com', password=hashed_pw, role='admin')
+            db.session.add(new_admin)
+        except TypeError:
+            # Dự phòng trường hợp models.py chưa khai báo cột role
+            new_admin = User(username='admin', email='admin@bookstore.com', password=hashed_pw)
+            db.session.add(new_admin)
+            
+        db.session.commit()
+        print("Đã tự động tạo tài khoản Admin: admin / admin123")
 
-# --- CÁC ROUTE GIAO DIỆN ---
+# --- CÁC ROUTE GIAO DIỆN KHÁCH HÀNG ---
 
 @app.route('/')
 def home():
@@ -82,15 +98,21 @@ def login():
         if user and check_password_hash(user.password, password):
             # LƯU VÀO SESSION (Dùng key 'username' để base.html nhận diện hiện icon người)
             session['username'] = user.username
-            session['role'] = user.role
+            if hasattr(user, 'role'):
+                session['role'] = user.role
             
             # Ghi log: Đăng nhập THÀNH CÔNG (Dữ liệu cho mô hình AI SVM/Random Forest)
             attempt = LoginAttempt(username_tried=username, ip_address=client_ip, status='success')
             db.session.add(attempt)
             db.session.commit()
             
-            flash(f'Login successful. Welcome back, {username}!', 'success')
-            return redirect(url_for('home'))
+            # ĐIỀU HƯỚNG TÙY THEO LOẠI TÀI KHOẢN
+            if user.username == 'admin' or session.get('role') == 'admin':
+                flash('Login successful. Welcome Administrator!', 'success')
+                return redirect(url_for('admin_dashboard'))
+            else:
+                flash(f'Login successful. Welcome back, {username}!', 'success')
+                return redirect(url_for('home'))
         else:
             # Ghi log: Đăng nhập THẤT BẠI
             attempt = LoginAttempt(username_tried=username, ip_address=client_ip, status='failed')
@@ -119,6 +141,38 @@ def profile():
     user = User.query.filter_by(username=session['username']).first()
     
     return render_template('profile.html', user=user)
+
+# --- KHU VỰC DÀNH CHO ADMIN ---
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    # 1. Kiểm tra bảo mật: Chỉ cho phép admin truy cập
+    if 'username' not in session or (session.get('username') != 'admin' and session.get('role') != 'admin'):
+        flash('Access denied! You do not have permission to view this page.', 'danger')
+        return redirect(url_for('home'))
+        
+    # 2. LẤY DỮ LIỆU THẬT TỪ DATABASE CHO ADMIN DASHBOARD
+    try:
+        # Lấy số lượng khách hàng (bỏ qua tài khoản admin)
+        total_users = User.query.filter(User.role != 'admin').count()
+    except AttributeError:
+        total_users = User.query.filter(User.username != 'admin').count()
+        
+    # Lấy số liệu Đăng nhập (Phục vụ Dataset cho ML)
+    failed_logins = LoginAttempt.query.filter_by(status='failed').count()
+    success_logins = LoginAttempt.query.filter_by(status='success').count()
+    
+    # Giả lập số liệu Doanh thu & Đơn hàng (Vì chưa có bảng Order)
+    total_revenue = 0
+    total_orders = 0
+    
+    # 3. Trả dữ liệu về giao diện
+    return render_template('admin/index.html', 
+                           total_users=total_users,
+                           failed_logins=failed_logins,
+                           success_logins=success_logins,
+                           total_revenue=total_revenue,
+                           total_orders=total_orders)
 
 # --- KHỞI CHẠY SERVER ---
 if __name__ == '__main__':
