@@ -54,7 +54,7 @@ with app.app_context():
             new_admin = User(username='admin', email='admin@bookstore.com', password=hashed_pw)
             db.session.add(new_admin)
         db.session.commit()
-        print("✅ Đã tự động tạo tài khoản Admin: admin / admin123")
+        print("✅ Created Admin: admin / admin123")
 
 # --- HÀM AI DỰ ĐOÁN TẤN CÔNG BRUTE FORCE ---
 def is_brute_force_attack(ip_address, username):
