@@ -54,37 +54,7 @@ with app.app_context():
             new_admin = User(username='admin', email='admin@bookstore.com', password=hashed_pw)
             db.session.add(new_admin)
         db.session.commit()
-        print("✅ Created Admin: admin / admin123")
-
-# --- HÀM AI DỰ ĐOÁN TẤN CÔNG BRUTE FORCE ---
-def is_brute_force_attack(ip_address, username):
-    if not svm_model: 
-        return False
-        
-    # SỬA TẠI ĐÂY: Sử dụng datetime.now() để khớp với giờ Việt Nam trong Database
-    time_threshold = datetime.now() - timedelta(minutes=5)
-    
-    failed_ip_count = LoginAttempt.query.filter(
-        LoginAttempt.ip_address == ip_address,
-        LoginAttempt.status == 'failed',
-        LoginAttempt.timestamp >= time_threshold
-    ).count()
-    
-    failed_user_count = LoginAttempt.query.filter(
-        LoginAttempt.username_tried == username,
-        LoginAttempt.status == 'failed',
-        LoginAttempt.timestamp >= time_threshold
-    ).count()
-    
-    features = np.array([[failed_ip_count, failed_user_count]])
-    
-    try:
-        prediction = svm_model.predict(features)
-        # Trả về True nếu AI dự đoán là 1 (Tấn công)
-        return prediction[0] == 1
-    except Exception as e:
-        print(f"Error occurred while AI predicting: {e}")
-        return False
+        print("Đã tự động tạo tài khoản Admin: admin / admin123")
 
 # --- CÁC ROUTE GIAO DIỆN KHÁCH HÀNG ---
 
