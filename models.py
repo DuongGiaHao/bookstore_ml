@@ -16,5 +16,5 @@ class LoginAttempt(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username_tried = db.Column(db.String(50), nullable=False)
     ip_address = db.Column(db.String(50), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    status = db.Column(db.String(20), nullable=False) # 'success' hoặc 'failed'
+    timestamp = db.Column(db.DateTime, default=datetime.now) 
+    status = db.Column(db.String(20))
