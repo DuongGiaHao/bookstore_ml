@@ -14,6 +14,9 @@ import joblib
 import numpy as np
 import time 
 
+# THÊM THƯ VIỆN ĐỂ TỰ ĐỘNG CHẤM ĐIỂM MÔ HÌNH DỰA TRÊN THỰC TẾ
+from sklearn.metrics import accuracy_score, f1_score, recall_score, confusion_matrix
+
 app = Flask(__name__)
 
 # --- CẤU HÌNH HỆ THỐNG ---
@@ -55,6 +58,34 @@ with app.app_context():
             db.session.add(new_admin)
         db.session.commit()
         print("Đã tự động tạo tài khoản Admin: admin / admin123")
+
+# --- HÀM AI DỰ ĐOÁN TẤN CÔNG BRUTE FORCE (Đã khôi phục) ---
+def is_brute_force_attack(ip_address, username):
+    if not svm_model: 
+        return False
+        
+    time_threshold = datetime.now() - timedelta(minutes=5)
+    
+    failed_ip_count = LoginAttempt.query.filter(
+        LoginAttempt.ip_address == ip_address,
+        LoginAttempt.status == 'failed',
+        LoginAttempt.timestamp >= time_threshold
+    ).count()
+    
+    failed_user_count = LoginAttempt.query.filter(
+        LoginAttempt.username_tried == username,
+        LoginAttempt.status == 'failed',
+        LoginAttempt.timestamp >= time_threshold
+    ).count()
+    
+    features = np.array([[failed_ip_count, failed_user_count]])
+    
+    try:
+        prediction = svm_model.predict(features)
+        return prediction[0] == 1
+    except Exception as e:
+        print(f"Lỗi khi AI dự đoán: {e}")
+        return False
 
 # --- CÁC ROUTE GIAO DIỆN KHÁCH HÀNG ---
 
@@ -196,6 +227,92 @@ def admin_speed_test():
                            rf_total_time=round(rf_total_time, 4),
                            svm_time_per_sample=round((svm_total_time / num_samples) * 1000, 5),
                            rf_time_per_sample=round((rf_total_time / num_samples) * 1000, 5))
+
+# === ROUTE MỚI: ĐÁNH GIÁ MÔ HÌNH DỰA TRÊN DỮ LIỆU THỰC TẾ TRONG DATABASE ===
+@app.route('/admin/compare')
+def admin_compare():
+    if 'username' not in session or session.get('role') != 'admin':
+        flash('Bạn không có quyền truy cập trang này!', 'danger')
+        return redirect(url_for('home'))
+        
+    if not svm_model or not rf_model:
+        flash('Mô hình AI chưa được nạp!', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+    # 1. LẤY TOÀN BỘ LOG ĐĂNG NHẬP TỪ DATABASE
+    logs = LoginAttempt.query.all()
+
+    # Nếu DB quá ít dữ liệu, yêu cầu chạy file giả lập trước
+    if len(logs) < 10:
+        flash('Hãy chạy file simulate_brute_force.py để tạo dữ liệu tấn công trước khi đánh giá AI!', 'warning')
+        return render_template('admin/compare.html', 
+                               svm_accuracy=0, rf_accuracy=0, svm_f1=0, rf_f1=0, 
+                               svm_recall=0, rf_recall=0, 
+                               svm_cm=[[0,0],[0,0]], rf_cm=[[0,0],[0,0]])
+
+    X_eval = [] # Mảng chứa dữ liệu đầu vào (Features)
+    y_true = [] # Mảng chứa đáp án đúng (Ground Truth)
+
+    # 2. XÂY DỰNG BỘ ĐỀ THI TỪ DỮ LIỆU LỊCH SỬ
+    for log in logs:
+        if log.status == 'success':
+            X_eval.append([0, 0])
+            y_true.append(0) # Đăng nhập thành công -> Bình thường (0)
+            continue
+
+        # Tính toán lại số lần sai tại thời điểm xảy ra log
+        time_threshold = log.timestamp - timedelta(minutes=5)
+        
+        failed_ip = LoginAttempt.query.filter(
+            LoginAttempt.ip_address == log.ip_address,
+            LoginAttempt.status.in_(['failed', 'brute_force']),
+            LoginAttempt.timestamp <= log.timestamp,
+            LoginAttempt.timestamp >= time_threshold
+        ).count()
+        
+        failed_user = LoginAttempt.query.filter(
+            LoginAttempt.username_tried == log.username_tried,
+            LoginAttempt.status.in_(['failed', 'brute_force']),
+            LoginAttempt.timestamp <= log.timestamp,
+            LoginAttempt.timestamp >= time_threshold
+        ).count()
+        
+        X_eval.append([failed_ip, failed_user])
+
+        # ĐÁP ÁN ĐÚNG: Quy ước cứ sai >= 5 lần liên tục là tấn công (1)
+        if failed_ip >= 5:
+            y_true.append(1)
+        else:
+            y_true.append(0)
+
+    # 3. ÉP CẢ 2 MÔ HÌNH LÀM BÀI TRÊN DỮ LIỆU LỊCH SỬ NÀY
+    svm_pred = svm_model.predict(X_eval)
+    rf_pred = rf_model.predict(X_eval)
+
+    # 4. CHẤM ĐIỂM BẰNG THƯ VIỆN SCIKIT-LEARN
+    svm_acc = round(accuracy_score(y_true, svm_pred) * 100, 2)
+    svm_f1 = round(f1_score(y_true, svm_pred, zero_division=0) * 100, 2)
+    svm_rec = round(recall_score(y_true, svm_pred, zero_division=0) * 100, 2)
+    svm_cm = confusion_matrix(y_true, svm_pred).tolist()
+
+    rf_acc = round(accuracy_score(y_true, rf_pred) * 100, 2)
+    rf_f1 = round(f1_score(y_true, rf_pred, zero_division=0) * 100, 2)
+    rf_rec = round(recall_score(y_true, rf_pred, zero_division=0) * 100, 2)
+    rf_cm = confusion_matrix(y_true, rf_pred).tolist()
+
+    # Cân bằng cấu trúc ma trận nhầm lẫn nếu dữ liệu quá ít (chỉ có 1 loại nhãn)
+    if len(svm_cm) == 1: svm_cm = [[svm_cm[0][0], 0], [0, 0]]
+    if len(rf_cm) == 1: rf_cm = [[rf_cm[0][0], 0], [0, 0]]
+
+    # 5. GÓI KẾT QUẢ ĐẨY RA GIAO DIỆN
+    metrics = {
+        'svm_accuracy': svm_acc, 'rf_accuracy': rf_acc,
+        'svm_f1': svm_f1, 'rf_f1': rf_f1,
+        'svm_recall': svm_rec, 'rf_recall': rf_rec,
+        'svm_cm': svm_cm, 'rf_cm': rf_cm
+    }
+
+    return render_template('admin/compare.html', **metrics)
 
 @app.route('/logout')
 def logout():
