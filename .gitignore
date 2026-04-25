@@ -48,6 +48,10 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
+# Machine Learning models (too large for git)
+model_ml/*.pkl
+*.pkl
+
 # Translations
 *.mo
 *.pot
